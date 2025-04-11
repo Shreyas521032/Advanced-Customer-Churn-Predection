@@ -3,6 +3,8 @@
 ## 📋 Overview
 This project implements a machine learning solution to predict customer churn using three different algorithms: **Random Forest**, **XGBoost**, and **Logistic Regression**. The model helps identify customers who are likely to discontinue services, enabling proactive retention strategies.
 
+🌍 **Live Project**: [https://shreyas-customer-churn-project.streamlit.app](https://shreyas-customer-churn-project.streamlit.app/)
+
 ## 📑 Table of Contents
 - [✨ Features](#-features)
 - [📦 Requirements](#-requirements)
@@ -91,4 +93,13 @@ ROC Curve
 
 ![{05BAA722-2B5D-466B-94C4-5ECB09D9A904}](https://github.com/user-attachments/assets/3a3cacb5-15e2-4876-bf49-94d3d3515866)
 
+## License
+
+© 2025 Shreyas Kasture
+
+All rights reserved.
+
+This software and its source code are the intellectual property of the author. Unauthorized copying, distribution, modification, or usage in any form is strictly prohibited without explicit written permission.
+
+For licensing inquiries, please contact: shreyas200410@gmail.com
 
