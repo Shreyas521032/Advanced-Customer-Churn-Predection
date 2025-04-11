@@ -1,4 +1,4 @@
-# 📉 Customer Churn Prediction
+# 📉 Advanced Customer Churn Prediction
 
 ## 📋 Overview
 This project implements a machine learning solution to predict customer churn using three different algorithms: **Random Forest**, **XGBoost**, and **Logistic Regression**. The model helps identify customers who are likely to discontinue services, enabling proactive retention strategies.
