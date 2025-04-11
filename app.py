@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 from sklearn.ensemble import GradientBoostingClassifier
 
-# retrain or load model, then save again
+model = GradientBoostingClassifier()
 joblib.dump(model, 'Gradient_Boosting_Classifier.joblib')
 
 # Load the trained model and scaler
