@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
 import joblib
+from sklearn.ensemble import GradientBoostingClassifier
+
+# retrain or load model, then save again
+joblib.dump(model, 'Gradient_Boosting_Classifier.joblib')
 
 # Load the trained model and scaler
 model = joblib.load('saved_models/Gradient_Boosting_Classifier.joblib')
