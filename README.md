@@ -82,6 +82,8 @@ pip install -r requirements.txt
 - Logistic Regression provided a good baseline but was outperformed by both ensemble methods
 
 Threshold vs Recall and Threshold vs Precision graph (XGBoost)
+
+
 ![image](https://github.com/user-attachments/assets/42be4ba5-052d-4e7c-8c16-be57bc929d80)
 
 ROC Curve
