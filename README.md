@@ -1,26 +1,27 @@
-# Customer Churn Prediction
+# 📉 Customer Churn Prediction
 
-## Overview
-This project implements a machine learning solution to predict customer churn using three different algorithms: Random Forest, XGBoost, and Logistic Regression. The model helps identify customers who are likely to discontinue services, enabling proactive retention strategies.
+## 📋 Overview
+This project implements a machine learning solution to predict customer churn using three different algorithms: **Random Forest**, **XGBoost**, and **Logistic Regression**. The model helps identify customers who are likely to discontinue services, enabling proactive retention strategies.
 
-## Table of Contents
-- [Features](#features)
-- [Requirements](#requirements)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Model Comparison](#model-comparison)
+## 📑 Table of Contents
+- [✨ Features](#-features)
+- [📦 Requirements](#-requirements)
+- [📁 Project Structure](#-project-structure)
+- [🛠️ Installation](#-installation)
+- [📊 Model Comparison](#-model-comparison)
 
-## Features
-- Data preprocessing and feature engineering
-- Implementation of three machine learning algorithms:
-  - Random Forest Classifier
-  - XGBoost Classifier
-  - Logistic Regression
-- Model performance comparison and evaluation
-- Feature importance analysis
-- Cross-validation for robust model validation
+## ✨ Features
+- 🔄 Data preprocessing and feature engineering  
+- 🤖 Implementation of three machine learning algorithms:
+  - 🌲 Random Forest Classifier
+  - ⚡ XGBoost Classifier
+  - ➕ Logistic Regression
+- 📈 Model performance comparison and evaluation
+- 🧠 Feature importance analysis
+- 🔁 Cross-validation for robust model validation
 
-## Requirements
+## 📦 Requirements
+
 ```
 python>=3.8
 pandas
