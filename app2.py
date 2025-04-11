@@ -199,7 +199,7 @@ if 'theme' not in st.session_state:
 
 # Sidebar for navigation and settings
 with st.sidebar:
-    st.image("https://via.placeholder.com/150x150.png?text=CP", width=150)
+    st.image("https://images.datacamp.com/image/upload/v1648487930/shutterstock_1624376548_b831bdf4c1.jpg", width=150)
     st.markdown("### Navigation")
     
     app_mode = st.radio(
