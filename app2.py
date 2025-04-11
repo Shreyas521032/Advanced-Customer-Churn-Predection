@@ -737,8 +737,6 @@ elif app_mode == "Batch Processing":
                         
                         # Download options
                         if export_format == "CSV":
-                          # Download options
-                        if export_format == "CSV":
                             csv_data = df.to_csv(index=False).encode('utf-8')
                             st.download_button(
                                 label="Download Results as CSV",
