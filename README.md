@@ -20,7 +20,7 @@ This project implements a machine learning solution to predict customer churn us
 - 🧠 Feature importance analysis
 - 🔁 Cross-validation for robust model validation
 
-## 📦 Requirements
+## Requirements
 
 ```
 python>=3.8
