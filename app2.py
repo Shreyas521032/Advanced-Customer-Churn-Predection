@@ -210,9 +210,6 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### Settings")
     
-    # Theme toggle
-    theme = st.selectbox("Theme", ["Light", "Dark"], index=0 if st.session_state.theme == 'light' else 1)
-    st.session_state.theme = theme.lower()
     
     # Expert mode toggle
     expert_mode = st.checkbox("Expert Mode", value=False)
