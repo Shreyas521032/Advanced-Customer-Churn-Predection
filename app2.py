@@ -199,7 +199,7 @@ if 'theme' not in st.session_state:
 
 # Sidebar for navigation and settings
 with st.sidebar:
-    st.image("https://images.datacamp.com/image/upload/v1648487930/shutterstock_1624376548_b831bdf4c1.jpg", width=150)
+    st.image("https://dimensionless.in/wp-content/uploads/2019/02/cover_tree.jpeg", width=150)
     st.markdown("### Navigation")
     
     app_mode = st.radio(
@@ -794,8 +794,8 @@ elif app_mode == "About":
     
     col1, col2 = st.columns([1, 2])
     
-
-    
+    with col2:
+        st.image("https://parcusgroup.com/wp-content/uploads/2024/04/Telecom_Customer_Churn_Prediction_Models-1.jpg", width=350)
     with col1:
         st.markdown("""
         ### Advanced Customer Churn Predictor
