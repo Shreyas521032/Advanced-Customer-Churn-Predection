@@ -21,7 +21,7 @@ balance = st.number_input("Balance", min_value=0.0, value=10000.0)
 # Predict button
 if st.button("Predict"):
     # Prepare the input data
-    input_data = pd.DataFrame([[credit_score, age, balance]], columns=['CreditScore', 'Age', 'Balance'])
+    input_data = pd.DataFrame([user_input], columns=expected_columns)
     input_scaled = scaler.transform(input_data)
     prediction = model.predict(input_scaled)
     result = "Churn" if prediction[0] == 1 else "No Churn"
