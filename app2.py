@@ -199,7 +199,7 @@ if 'theme' not in st.session_state:
 
 # Sidebar for navigation and settings
 with st.sidebar:
-    st.image("https://dimensionless.in/wp-content/uploads/2019/02/cover_tree.jpeg", width=250)
+    st.image("https://dimensionless.in/wp-content/uploads/2019/02/cover_tree.jpeg", width=200)
     st.markdown("### Navigation")
     
     app_mode = st.radio(
