@@ -796,7 +796,7 @@ elif app_mode == "About":
     
 
     
-    with col2:
+    with col1:
         st.markdown("""
         ### Advanced Customer Churn Predictor
         
