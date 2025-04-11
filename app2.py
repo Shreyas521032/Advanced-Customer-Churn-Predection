@@ -794,8 +794,7 @@ elif app_mode == "About":
     
     col1, col2 = st.columns([1, 2])
     
-    with col1:
-        st.image("https://via.placeholder.com/300x300.png?text=CP", width=300)
+
     
     with col2:
         st.markdown("""
