@@ -421,16 +421,7 @@ if app_mode == "Prediction Tool":
             help="Download realistic sample dataset with example records"
         )
     
-    st.markdown("""
-    #### File Requirements
-    - CSV format with UTF-8 encoding
-    - Required columns: `CreditScore`, `Age`, `Balance`, `EstimatedSalary`
-    - Optional columns: Add any additional columns will be ignored
-    - Max file size: 200MB
-    """)
-    
-    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
-    
+        
         st.markdown("Upload a CSV file with customer data for batch prediction.")
         
         uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
