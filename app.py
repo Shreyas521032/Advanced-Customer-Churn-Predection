@@ -216,8 +216,6 @@ with st.sidebar:
     # Expert mode toggle
     expert_mode = st.checkbox("Expert Mode", value=False)
     
-    st.markdown("---")
-
 # Load models
 model, scaler = load_models()
 
