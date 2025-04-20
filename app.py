@@ -767,7 +767,7 @@ elif app_mode == "Batch Processing":
     
     with col2:
         id_column = st.text_input("ID Column Name (optional)", value="CustomerID")
-        export_format = st.radio("Export Format", ["CSV", "Excel"], horizontal=True)
+        export_format = st.radio("Export Format", ["CSV", "Excel"], index=1, horizontal=True)
     
     # Process button
     if uploaded_file is not None:
