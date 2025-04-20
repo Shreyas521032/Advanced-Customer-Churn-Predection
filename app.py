@@ -217,12 +217,6 @@ with st.sidebar:
     expert_mode = st.checkbox("Expert Mode", value=False)
     
     st.markdown("---")
-    st.markdown("### History")
-    if st.session_state.prediction_history:
-        for i, (timestamp, result) in enumerate(st.session_state.prediction_history[-5:]):
-            st.markdown(f"**{timestamp}**: {result}")
-    else:
-        st.markdown("No predictions yet")
 
 # Load models
 model, scaler = load_models()
