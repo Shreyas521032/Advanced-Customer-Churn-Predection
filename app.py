@@ -379,8 +379,7 @@ if app_mode == "Prediction Tool":
     
     with upload_tab:
         st.markdown("### Upload Customer Data")
-            col1, col2 = st.columns([1, 1])
-    
+        col1, col2 = st.columns([1, 1]) 
     with col1:
         # Download template button
         template_data = pd.DataFrame({
