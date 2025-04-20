@@ -604,28 +604,76 @@ elif app_mode == "Batch Processing":
     
     You can also include a customer ID column for tracking.
     """)
+
+    @st.cache_data
+    def generate_high_accuracy_sample():
+        np.random.seed(42)
+        size = 1000
+        
+        data = pd.DataFrame({
+            'CustomerID': [f'C{1000+i}' for i in range(size)],
+            'CreditScore': np.concatenate([
+                np.random.normal(450, 50, int(size*0.7)),
+                np.random.normal(750, 50, int(size*0.3))
+            ]).clip(300, 850),
+            'Age': np.concatenate([
+                np.random.randint(18, 35, int(size*0.65)),
+                np.random.randint(35, 70, int(size*0.35))
+            ]),
+            'Balance': np.concatenate([
+                np.random.uniform(0, 50000, int(size*0.6)),
+                np.random.uniform(50000, 250000, int(size*0.4))
+            ]),
+            'EstimatedSalary': np.concatenate([
+                np.random.uniform(20000, 60000, int(size*0.7)),
+                np.random.uniform(60000, 200000, int(size*0.3))
+            ]),
+            'Churn': np.concatenate([
+                np.ones(int(size*0.6)),
+                np.zeros(int(size*0.4))
+            ])
+        })
+        
+        # Create clear patterns
+        data['Churn'] = np.where(
+            (data['CreditScore'] < 600) & 
+            (data['Age'] < 35) & 
+            (data['Balance'] < 50000) & 
+            (data['EstimatedSalary'] < 60000),
+            1,
+            data['Churn']
+        )
+        
+        return data[['CustomerID', 'CreditScore', 'Age', 'Balance', 'EstimatedSalary']]
+
+    # Add download buttons before upload section
+    col1, col2 = st.columns(2)
     
-    # Template download
-    st.markdown("#### Download Template")
+    with col1:
+        # Download template button
+        template_df = generate_high_accuracy_sample().head(3)
+        csv_template = template_df.to_csv(index=False).encode('utf-8')
+        
+        st.download_button(
+            label="Download CSV Template",
+            data=csv_template,
+            file_name="churn_template.csv",
+            mime="text/csv",
+            help="Template with required columns"
+        )
     
-    # Create template dataframe
-    template_df = pd.DataFrame({
-        'CustomerID': ['C001', 'C002', 'C003'],
-        'CreditScore': [720, 650, 590],
-        'Age': [42, 35, 28],
-        'Balance': [52000, 76000, 48000],
-        'EstimatedSalary': [65000, 48000, 85000]
-    })
-    
-    template_csv = template_df.to_csv(index=False).encode('utf-8')
-    
-    st.download_button(
-        label="Download CSV Template",
-        data=template_csv,
-        file_name="churn_prediction_template.csv",
-        mime="text/csv",
-        help="Download a template CSV file with the required columns"
-    )
+    with col2:
+        # Download sample data button
+        sample_df = generate_high_accuracy_sample()
+        csv_sample = sample_df.to_csv(index=False).encode('utf-8')
+        
+        st.download_button(
+            label="Download Sample Data",
+            data=csv_sample,
+            file_name="sample_customers.csv",
+            mime="text/csv",
+            help="Sample dataset with realistic patterns"
+        )
     
     # File uploader
     st.markdown("#### Upload Customer Data")
