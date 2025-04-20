@@ -500,12 +500,46 @@ if app_mode == "Prediction Tool":
                             st.markdown(f"**Summary**: {churn_count} out of {total} customers ({churn_pct:.1f}%) are predicted to churn.")
                             
                             # Download link
-                            st.download_button(
+                            if export_format == "CSV":
+                                csv_data = df.to_csv(index=False).encode('utf-8')
+                                st.download_button(
                                 label="Download Results as CSV",
-                                data=df.to_csv(index=False).encode('utf-8'),
+                                data=csv_data,
                                 file_name="churn_predictions.csv",
                                 mime="text/csv"
-                            )
+                                )
+                            else:  # Excel
+                            # Create an Excel writer
+                                output = io.BytesIO()
+                                with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+                                # Write the data
+                                    df.to_excel(writer, sheet_name='Predictions', index=False)
+                                
+                                # Access the workbook and worksheet
+                                    workbook = writer.book
+                                    worksheet = writer.sheets['Predictions']
+                                
+                                # Add formats
+                                    header_format = workbook.add_format({
+                                    'bold': True,
+                                    'text_wrap': True,
+                                    'valign': 'top',
+                                    'fg_color': '#D7E4BC',
+                                    'border': 1
+                                    })
+                                
+                                # Apply header format
+                                    for col_num, value in enumerate(df.columns.values):
+                                        worksheet.write(0, col_num, value, header_format)
+                                
+                                # Add conditional formatting for churn prediction
+                                        worksheet.conditional_format(1, df.columns.get_loc('ChurnPrediction'), 
+                                                           len(df) + 1, df.columns.get_loc('ChurnPrediction'), 
+                                                           {'type': 'text',
+                                                            'criteria': 'containing',
+                                                            'value': 'Churn',
+                                                            'format': workbook.add_format({'bg_color': '#FFC7CE'})})
+                                
             except Exception as e:
                 st.error(f"Error processing file: {e}")
 
