@@ -401,24 +401,15 @@ if app_mode == "Prediction Tool":
     with col2:
         # Download sample data button
         @st.cache_data
-        def generate_sample_data():
-            return pd.DataFrame({
-                'CreditScore': [715, 620, 580, 690, 530, 720, 490, 680],
-                'Age': [42, 35, 29, 55, 31, 48, 26, 60],
-                'Balance': [120000, 75000, 15000, 200000, 30000, 180000, 5000, 220000],
-                'EstimatedSalary': [85000, 62000, 48000, 125000, 52000, 110000, 42000, 135000],
-                'ExpectedChurn': [0, 0, 1, 0, 1, 0, 1, 0]  # Add expected values for demonstration
-            })
-        
-        sample_data = generate_sample_data()
-        csv_sample = sample_data.to_csv(index=False).encode('utf-8')
+        sample_df = generate_high_accuracy_sample()
+        csv_sample = sample_df.to_csv(index=False).encode('utf-8')
         
         st.download_button(
             label="Download Sample Data",
             data=csv_sample,
             file_name="sample_customers.csv",
             mime="text/csv",
-            help="Download realistic sample dataset with example records"
+            help="Sample dataset with realistic patterns"
         )
     
         
