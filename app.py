@@ -379,6 +379,59 @@ if app_mode == "Prediction Tool":
     
     with upload_tab:
         st.markdown("### Upload Customer Data")
+            col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        # Download template button
+        template_data = pd.DataFrame({
+            'CreditScore': [650, 720, 580],
+            'Age': [35, 42, 28],
+            'Balance': [50000.0, 120000.0, 8000.0],
+            'EstimatedSalary': [75000.0, 95000.0, 45000.0]
+        })
+        csv_template = template_data.to_csv(index=False).encode('utf-8')
+        
+        st.download_button(
+            label="Download Template",
+            data=csv_template,
+            file_name="churn_template.csv",
+            mime="text/csv",
+            help="Download minimal template with required columns"
+        )
+    
+    with col2:
+        # Download sample data button
+        @st.cache_data
+        def generate_sample_data():
+            return pd.DataFrame({
+                'CreditScore': [715, 620, 580, 690, 530, 720, 490, 680],
+                'Age': [42, 35, 29, 55, 31, 48, 26, 60],
+                'Balance': [120000, 75000, 15000, 200000, 30000, 180000, 5000, 220000],
+                'EstimatedSalary': [85000, 62000, 48000, 125000, 52000, 110000, 42000, 135000],
+                'ExpectedChurn': [0, 0, 1, 0, 1, 0, 1, 0]  # Add expected values for demonstration
+            })
+        
+        sample_data = generate_sample_data()
+        csv_sample = sample_data.to_csv(index=False).encode('utf-8')
+        
+        st.download_button(
+            label="Download Sample Data",
+            data=csv_sample,
+            file_name="sample_customers.csv",
+            mime="text/csv",
+            help="Download realistic sample dataset with example records"
+        )
+    
+    st.markdown("""
+    #### File Requirements
+    - CSV format with UTF-8 encoding
+    - Required columns: `CreditScore`, `Age`, `Balance`, `EstimatedSalary`
+    - Optional columns: Add any additional columns will be ignored
+    - Max file size: 200MB
+    """)
+    
+    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+    
         st.markdown("Upload a CSV file with customer data for batch prediction.")
         
         uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
