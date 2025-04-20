@@ -402,10 +402,9 @@ if app_mode == "Prediction Tool":
         # Download sample data button
         @st.cache_data
         def generate_high_accuracy_sample():
-        np.random.seed(42)
-        size = 1000
-        
-        data = pd.DataFrame({
+            np.random.seed(42)
+            size = 1000
+            data = pd.DataFrame({
             'CustomerID': [f'C{1000+i}' for i in range(size)],
             'CreditScore': np.concatenate([
                 np.random.normal(450, 50, int(size*0.7)),
@@ -426,20 +425,20 @@ if app_mode == "Prediction Tool":
             'Churn': np.concatenate([
                 np.ones(int(size*0.6)),
                 np.zeros(int(size*0.4))
-            ])
-        })
+                ])
+            })
         
         # Create clear patterns
-        data['Churn'] = np.where(
+            data['Churn'] = np.where(
             (data['CreditScore'] < 600) & 
             (data['Age'] < 35) & 
             (data['Balance'] < 50000) & 
             (data['EstimatedSalary'] < 60000),
             1,
             data['Churn']
-        )
+            )
         
-        return data[['CustomerID', 'CreditScore', 'Age', 'Balance', 'EstimatedSalary']]
+            return data[['CustomerID', 'CreditScore', 'Age', 'Balance', 'EstimatedSalary']]
 
         sample_df = generate_high_accuracy_sample()
         csv_sample = sample_df.to_csv(index=False).encode('utf-8')
