@@ -503,8 +503,7 @@ if app_mode == "Prediction Tool":
                             output = BytesIO()
                             with pd.ExcelWriter(output, engine='openpyxl') as writer:
                                 df.to_excel(writer, index=False, sheet_name='Predictions')
-                                writer.save()
-                                excel_data = output.getvalue()
+                            excel_data = output.getvalue()
                             st.download_button(
                                 label="Download Results as Excel",
                                 data=excel_data,
