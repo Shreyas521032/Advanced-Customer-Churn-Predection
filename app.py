@@ -10,6 +10,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.metrics import confusion_matrix, classification_report
 import shap
+import io
 
 # Page configuration
 st.set_page_config(
