@@ -29,6 +29,7 @@ st.markdown("""
         color: #2c3e50;
         text-align: center;
         margin-bottom: 2rem;
+        font-weight: bold;
     }
     .sub-header {
         font-size: 1.5rem;
@@ -55,11 +56,18 @@ st.markdown("""
         background-color: rgba(46, 204, 113, 0.2);
         border: 1px solid #2ecc71;
     }
-    .stProgress > div > div > div > div {
+    .stProgress > div > div > div {
         background-color: #2980b9;
+        border-radius: 8px;
+    }
+    /* Styling for progress bar text */
+    .stProgress .stProgressText {
+        color: #fff;
+        font-weight: bold;
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 # Display logo and title in header
 col1, col2, col3 = st.columns([1, 3, 1])
