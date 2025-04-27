@@ -1002,7 +1002,7 @@ elif app_mode == "About":
     st.markdown("---")
     st.markdown("""
     <div class="footer">
-        <p>Made by Shreyas</p>
+        <p>Developed by Shreyas</p>
         <p>© 2025 All Rights Reserved</p>
         <p>Version 2.5.0</p>
     </div>
@@ -1016,7 +1016,7 @@ if __name__ == "__main__":
     st.sidebar.markdown("---")
     st.sidebar.markdown("""
     <div class="footer">
-        <p>Made by Shreyas</p>
+        <p>Developed by Shreyas</p>
         <p>© 2025 All Rights Reserved</p>
     </div>
     """, unsafe_allow_html=True)
