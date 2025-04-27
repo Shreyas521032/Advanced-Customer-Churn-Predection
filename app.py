@@ -116,7 +116,6 @@ st.markdown("""
 # Display logo and title in header with improved layout
 col1, col2, col3 = st.columns([1, 3, 1])
 with col2:
-    st.markdown('<img src="your-logo-url-here" class="logo">', unsafe_allow_html=True)  # Replace with your logo URL
     st.markdown('<h1 class="main-header">Advanced Customer Churn Predictor</h1>', unsafe_allow_html=True)
     st.markdown('<h3 class="sub-header">Predict and analyze customer churn with accuracy</h3>', unsafe_allow_html=True)
 
