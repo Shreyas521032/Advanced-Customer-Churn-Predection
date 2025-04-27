@@ -24,55 +24,102 @@ st.set_page_config(
 # Add custom CSS
 st.markdown("""
 <style>
+    /* Main Header Styling */
     .main-header {
-        font-size: 2.5rem;
+        font-size: 3rem;
         color: #2c3e50;
         text-align: center;
         margin-bottom: 2rem;
-        font-weight: bold;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     }
+
+    /* Sub Header Styling */
     .sub-header {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         color: #34495e;
         margin-bottom: 1rem;
+        font-weight: 500;
+        text-align: center;
     }
+
+    /* Footer Styling */
     .footer {
         text-align: center;
-        margin-top: 3rem;
+        margin-top: 4rem;
         color: #7f8c8d;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
+        font-style: italic;
     }
+
+    /* Prediction Box Styling */
     .prediction-box {
-        padding: 20px;
-        border-radius: 10px;
+        padding: 25px;
+        border-radius: 15px;
         margin: 20px 0;
         text-align: center;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
     }
+    .prediction-box:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Prediction Box - Churn Styling */
     .prediction-box.churn {
-        background-color: rgba(231, 76, 60, 0.2);
-        border: 1px solid #e74c3c;
+        background-color: rgba(231, 76, 60, 0.1);
+        border: 2px solid #e74c3c;
+        color: #e74c3c;
     }
+
+    /* Prediction Box - No Churn Styling */
     .prediction-box.no-churn {
-        background-color: rgba(46, 204, 113, 0.2);
-        border: 1px solid #2ecc71;
+        background-color: rgba(46, 204, 113, 0.1);
+        border: 2px solid #2ecc71;
+        color: #2ecc71;
     }
+
+    /* Progress Bar Styling */
     .stProgress > div > div > div {
         background-color: #2980b9;
-        border-radius: 8px;
+        border-radius: 10px;
+        height: 20px;
+        transition: width 0.3s ease;
     }
-    /* Styling for progress bar text */
+
+    /* Progress Bar Text Styling */
     .stProgress .stProgressText {
         color: #fff;
         font-weight: bold;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    /* Container for Columns */
+    .container-header {
+        padding: 1.5rem;
+    }
+
+    /* Styling for Logo in Header */
+    .logo {
+        width: 120px;
+        height: auto;
+        display: block;
+        margin: 0 auto 15px;
     }
 </style>
 """, unsafe_allow_html=True)
 
 
-# Display logo and title in header
+# Display logo and title in header with improved layout
 col1, col2, col3 = st.columns([1, 3, 1])
 with col2:
+    st.markdown('<img src="your-logo-url-here" class="logo">', unsafe_allow_html=True)  # Replace with your logo URL
     st.markdown('<h1 class="main-header">Advanced Customer Churn Predictor</h1>', unsafe_allow_html=True)
+    st.markdown('<h3 class="sub-header">Predict and analyze customer churn with accuracy</h3>', unsafe_allow_html=True)
+
 
 # Caching functions for better performance
 @st.cache_resource
