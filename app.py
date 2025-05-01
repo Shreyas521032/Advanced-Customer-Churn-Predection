@@ -583,7 +583,8 @@ if app_mode == "Prediction Tool":
                         
                         st.plotly_chart(fig, use_container_width=True)
                         id_column = st.text_input("ID Column Name (optional)", value="CustomerID")
-                        export_format = st.radio("Export Format", ["CSV", "Excel"], index=1, horizontal=True)
+                        export_format = st.radio("Export Format", ["Excel"], index=0, horizontal=True)
+
                         # Download options
                         if export_format == "CSV":
                             csv_data = df.to_csv(index=False).encode('utf-8')
