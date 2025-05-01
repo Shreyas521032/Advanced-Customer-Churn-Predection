@@ -645,9 +645,7 @@ if app_mode == "Prediction Tool":
                                 file_name="churn_predictions.xlsx",
                                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                             )
-        except Exception as e:
-            st.error(f"Error processing file: {str(e)}")
- 
+         
 elif app_mode == "Dashboard & Analytics":
     st.markdown('<h2 class="sub-header">Churn Analytics Dashboard</h2>', unsafe_allow_html=True)
     
