@@ -503,56 +503,116 @@ if app_mode == "Prediction Tool":
         st.markdown("Upload a CSV file with customer data for batch prediction.")
         
         uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
-        
+
         if uploaded_file is not None:
-            try:
-                # Load data
-                df = pd.read_csv(uploaded_file)
-                
-                # Show data preview
-                st.markdown("#### Data Preview")
-                st.dataframe(df.head())
-                
-                # Check if required columns exist
-                missing_cols = [col for col in feature_columns if col not in df.columns]
-                
-                if missing_cols:
-                    st.error(f"Missing required columns: {', '.join(missing_cols)}")
-                else:
-                    # Process button
-                    if st.button("Process Batch"):
-                        with st.spinner("Processing batch predictions..."):
-                            # Only use required columns
-                            input_data = df[feature_columns]
-                            
-                            # Scale data
-                            input_scaled = scaler.transform(input_data)
-                            
-                            # Make predictions
-                            df['Prediction'] = model.predict(input_scaled)
-                            df['Churn_Probability'] = model.predict_proba(input_scaled)[:, 1]
-                            
-                            # Format results
-                            df['Prediction'] = df['Prediction'].map({0: 'No Churn', 1: 'Churn'})
-                            df['Churn_Probability'] = df['Churn_Probability'].apply(lambda x: f"{x:.2%}")
-                            
-                            # Display results
-                            st.markdown("#### Prediction Results")
-                            st.dataframe(df, use_container_width=True)
-                            
-                            # Summary statistics
-                            churn_count = (df['Prediction'] == 'Churn').sum()
-                            total = len(df)
-                            churn_pct = churn_count / total * 100
-                            
-                            st.markdown(f"**Summary**: {churn_count} out of {total} customers ({churn_pct:.1f}%) are predicted to churn.")
+        try:
+            # Load data
+            df = pd.read_csv(uploaded_file)
+            
+            # Show data preview
+            st.markdown("#### Data Preview")
+            st.dataframe(df.head())
+            
+            # Check for required columns
+            missing_cols = [col for col in feature_columns if col not in df.columns]
+            
+            if missing_cols:
+                st.error(f"Missing required columns: {', '.join(missing_cols)}")
+            else:
+                # Process button
+                if st.button("Process Batch"):
+                    with st.spinner("Processing batch predictions..."):
+                        progress_bar = st.progress(0)
+                        
+                        # Only use required columns for prediction
+                        input_data = df[feature_columns]
+                        
+                        # Scale data
+                        input_scaled = scaler.transform(input_data)
+                        
+                        # Make predictions
+                        df['ChurnPrediction'] = model.predict(input_scaled)
+                        df['ChurnProbability'] = model.predict_proba(input_scaled)[:, 1]
+                        
+                        # Update progress
+                        progress_bar.progress(50)
+                        
+                        # Format results
+                        df['ChurnPrediction'] = df['ChurnPrediction'].map({0: 'No Churn', 1: 'Churn'})
+                        df['ChurnProbability'] = df['ChurnProbability'].apply(lambda x: f"{x:.2%}")
+                        
+                        # Add risk level
+                        df['RiskLevel'] = df['ChurnProbability'].apply(
+                            lambda x: 'High' if float(x.strip('%'))/100 > 0.7 
+                            else ('Medium' if float(x.strip('%'))/100 > 0.3 else 'Low')
+                        )
+                        
+                        # Update progress
+                        progress_bar.progress(75)
+                        
+                        # Add explanation if requested
+                        if include_explanations:
+                            # This would be more sophisticated in a real application
+                            # Here we're just providing a simple placeholder
+                            df['Explanation'] = df.apply(
+                                lambda row: "Low credit score & age" if row['CreditScore'] < 600 and row['Age'] < 30
+                                else ("High balance customer" if row['Balance'] > 100000 
+                                      else "Multiple factors"), axis=1
+                            )
+                        
+                        # Complete progress
+                        progress_bar.progress(100)
+                        
+                        # Display results
+                        st.markdown("#### Prediction Results")
+                        st.dataframe(df, use_container_width=True)
+                        
+                        # Summary statistics
+                        churn_count = (df['ChurnPrediction'] == 'Churn').sum()
+                        total = len(df)
+                        churn_pct = churn_count / total * 100
+                        
+                        # Create summary metrics
+                        col1, col2, col3 = st.columns(3)
+                        with col1:
+                            st.metric("Total Records", total)
+                        with col2:
+                            st.metric("Predicted Churn", churn_count)
+                        with col3:
+                            st.metric("Churn Rate", f"{churn_pct:.1f}%")
+                        
+                        # Risk breakdown
+                        risk_counts = df['RiskLevel'].value_counts().reset_index()
+                        risk_counts.columns = ['Risk Level', 'Count']
+                        
+                        fig = px.pie(risk_counts, values='Count', names='Risk Level',
+                                    color='Risk Level',
+                                    color_discrete_map={'High': '#e74c3c', 'Medium': '#f39c12', 'Low': '#2ecc71'},
+                                    title='Customer Risk Distribution')
+                        
+                        st.plotly_chart(fig, use_container_width=True)
+                        
+                        # Download options
+                        if export_format == "CSV":
+                            csv_data = df.to_csv(index=False).encode('utf-8')
+                            st.download_button(
+                                label="Download Results as CSV",
+                                data=csv_data,
+                                file_name="churn_predictions.csv",
+                                mime="text/csv"
+                            )
+                        else:  # Excel
+                            # Create an Excel writer
                             output = io.BytesIO()
                             with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
                                 # Write the data
-                                df.to_excel(writer, sheet_name='Predictions', index=False)            
+                                df.to_excel(writer, sheet_name='Predictions', index=False)
+                                
+                                # Access the workbook and worksheet
                                 workbook = writer.book
                                 worksheet = writer.sheets['Predictions']
-                                excel_data = output.getvalue()
+                                
+                                # Add formats
                                 header_format = workbook.add_format({
                                     'bold': True,
                                     'text_wrap': True,
@@ -564,7 +624,9 @@ if app_mode == "Prediction Tool":
                                 # Apply header format
                                 for col_num, value in enumerate(df.columns.values):
                                     worksheet.write(0, col_num, value, header_format)
-                                    worksheet.conditional_format(1, df.columns.get_loc('ChurnPrediction'), 
+                                
+                                # Add conditional formatting for churn prediction
+                                worksheet.conditional_format(1, df.columns.get_loc('ChurnPrediction'), 
                                                            len(df) + 1, df.columns.get_loc('ChurnPrediction'), 
                                                            {'type': 'text',
                                                             'criteria': 'containing',
@@ -572,21 +634,21 @@ if app_mode == "Prediction Tool":
                                                             'format': workbook.add_format({'bg_color': '#FFC7CE'})})
                                 
                                 # Auto-adjust columns
-                                    for i, col in enumerate(df.columns):
-                                        column_width = max(df[col].astype(str).map(len).max(), len(col)) + 2
-                                        worksheet.set_column(i, i, column_width)
+                                for i, col in enumerate(df.columns):
+                                    column_width = max(df[col].astype(str).map(len).max(), len(col)) + 2
+                                    worksheet.set_column(i, i, column_width)
                             
                             # Download button for Excel
-                                output.seek(0)
-                                st.download_button(
-                                    label="Download Results as Excel",
-                                    data=output.getvalue(),
-                                    file_name="churn_predictions.xlsx",
-                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            output.seek(0)
+                            st.download_button(
+                                label="Download Results as Excel",
+                                data=output.getvalue(),
+                                file_name="churn_predictions.xlsx",
+                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                             )
-            except Exception as e:
-                st.error(f"Error processing file: {e}")
-
+        except Exception as e:
+            st.error(f"Error processing file: {str(e)}")
+ 
 elif app_mode == "Dashboard & Analytics":
     st.markdown('<h2 class="sub-header">Churn Analytics Dashboard</h2>', unsafe_allow_html=True)
     
