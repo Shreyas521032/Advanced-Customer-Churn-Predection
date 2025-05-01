@@ -546,10 +546,10 @@ if app_mode == "Prediction Tool":
                             churn_pct = churn_count / total * 100
                             
                             st.markdown(f"**Summary**: {churn_count} out of {total} customers ({churn_pct:.1f}%) are predicted to churn.")
-
-                            output = BytesIO()
-                            with pd.ExcelWriter(output, engine='openpyxl') as writer:
-                                df.to_excel(writer, index=False, sheet_name='Predictions')
+                            output = io.BytesIO()
+                            with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+                                # Write the data
+                                df.to_excel(writer, sheet_name='Predictions', index=False)            
                                 workbook = writer.book
                                 worksheet = writer.sheets['Predictions']
                                 excel_data = output.getvalue()
