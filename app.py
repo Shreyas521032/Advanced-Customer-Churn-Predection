@@ -546,23 +546,14 @@ if app_mode == "Prediction Tool":
                             churn_pct = churn_count / total * 100
                             
                             st.markdown(f"**Summary**: {churn_count} out of {total} customers ({churn_pct:.1f}%) are predicted to churn.")
-                            if export_format == "CSV":
-                                csv_data = df.to_csv(index=False).encode('utf-8')
-                                st.download_button(
-                                label="Download Results as CSV",
-                                data=csv_data,
-                                file_name="churn_predictions.csv",
-                                mime="text/csv"
-                            )
-                            else:  # Excel
-                                output = io.BytesIO()
-                                with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+                            output = io.BytesIO()
+                            with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
                                 # Write the data
-                                    df.to_excel(writer, sheet_name='Predictions', index=False)            
-                                    workbook = writer.book
-                                    worksheet = writer.sheets['Predictions']
-                                    excel_data = output.getvalue()
-                                    header_format = workbook.add_format({
+                                df.to_excel(writer, sheet_name='Predictions', index=False)            
+                                workbook = writer.book
+                                worksheet = writer.sheets['Predictions']
+                                excel_data = output.getvalue()
+                                header_format = workbook.add_format({
                                     'bold': True,
                                     'text_wrap': True,
                                     'valign': 'top',
@@ -571,11 +562,11 @@ if app_mode == "Prediction Tool":
                                 })
                                 
                                 # Apply header format
-                                    for col_num, value in enumerate(df.columns.values):
-                                        worksheet.write(0, col_num, value, header_format)
+                                for col_num, value in enumerate(df.columns.values):
+                                    worksheet.write(0, col_num, value, header_format)
                                 
                                 # Add conditional formatting for churn prediction
-                                        worksheet.conditional_format(1, df.columns.get_loc('ChurnPrediction'), 
+                                    worksheet.conditional_format(1, df.columns.get_loc('ChurnPrediction'), 
                                                            len(df) + 1, df.columns.get_loc('ChurnPrediction'), 
                                                            {'type': 'text',
                                                             'criteria': 'containing',
@@ -583,20 +574,20 @@ if app_mode == "Prediction Tool":
                                                             'format': workbook.add_format({'bg_color': '#FFC7CE'})})
                                 
                                 # Auto-adjust columns
-                                        for i, col in enumerate(df.columns):
-                                            column_width = max(df[col].astype(str).map(len).max(), len(col)) + 2
-                                             worksheet.set_column(i, i, column_width)
+                                    for i, col in enumerate(df.columns):
+                                        column_width = max(df[col].astype(str).map(len).max(), len(col)) + 2
+                                        worksheet.set_column(i, i, column_width)
                             
                             # Download button for Excel
-                                    output.seek(0)
-                                    st.download_button(
-                                    label="Download Results as Excel",
-                                    data=output.getvalue(),
-                                    file_name="churn_predictions.xlsx",
-                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                output.seek(0)
+                                st.download_button(
+                                label="Download Results as Excel",
+                                data=output.getvalue(),
+                                file_name="churn_predictions.xlsx",
+                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                             )
-        except Exception as e:
-            st.error(f"Error processing file: {e}")
+            except Exception as e:
+                st.error(f"Error processing file: {e}")
 
 elif app_mode == "Dashboard & Analytics":
     st.markdown('<h2 class="sub-header">Churn Analytics Dashboard</h2>', unsafe_allow_html=True)
