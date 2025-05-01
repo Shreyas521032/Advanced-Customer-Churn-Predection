@@ -12,6 +12,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 import shap
 import io
 from io import BytesIO
+from openpyxl.styles import PatternFill
 
 # Page configuration
 st.set_page_config(
