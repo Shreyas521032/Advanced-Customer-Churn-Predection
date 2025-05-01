@@ -575,7 +575,7 @@ if app_mode == "Prediction Tool":
                                         worksheet.write(0, col_num, value, header_format)
                                 
                                 # Add conditional formatting for churn prediction
-                                     worksheet.conditional_format(1, df.columns.get_loc('ChurnPrediction'), 
+                                        worksheet.conditional_format(1, df.columns.get_loc('ChurnPrediction'), 
                                                            len(df) + 1, df.columns.get_loc('ChurnPrediction'), 
                                                            {'type': 'text',
                                                             'criteria': 'containing',
@@ -583,17 +583,17 @@ if app_mode == "Prediction Tool":
                                                             'format': workbook.add_format({'bg_color': '#FFC7CE'})})
                                 
                                 # Auto-adjust columns
-                                    for i, col in enumerate(df.columns):
-                                        column_width = max(df[col].astype(str).map(len).max(), len(col)) + 2
-                                        worksheet.set_column(i, i, column_width)
+                                        for i, col in enumerate(df.columns):
+                                            column_width = max(df[col].astype(str).map(len).max(), len(col)) + 2
+                                             worksheet.set_column(i, i, column_width)
                             
                             # Download button for Excel
-                                output.seek(0)
-                                st.download_button(
-                                label="Download Results as Excel",
-                                data=output.getvalue(),
-                                file_name="churn_predictions.xlsx",
-                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                    output.seek(0)
+                                    st.download_button(
+                                    label="Download Results as Excel",
+                                    data=output.getvalue(),
+                                    file_name="churn_predictions.xlsx",
+                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                             )
         except Exception as e:
             st.error(f"Error processing file: {e}")
