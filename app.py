@@ -552,20 +552,40 @@ if app_mode == "Prediction Tool":
                                 df.to_excel(writer, index=False, sheet_name='Predictions')
                                 workbook = writer.book
                                 worksheet = writer.sheets['Predictions']
-                                red_fill = PatternFill(start_color='FFFF0000', end_color='FFFF0000', fill_type='solid')
-                                churn_col_idx = df.columns.get_loc("Churn") + 1  # 1-based indexing in Excel
-                                for row_idx, value in enumerate(df["Churn"], start=2):  # Start at 2 to skip header
-                                    if value in [1, "Yes", True]:
-                                        for col_idx in range(1, len(df.columns) + 1):
-                                            worksheet.cell(row=row_idx, column=col_idx).fill = red_fill 
-                            
                             excel_data = output.getvalue()
+                            header_format = workbook.add_format({
+                                    'bold': True,
+                                    'text_wrap': True,
+                                    'valign': 'top',
+                                    'fg_color': '#D7E4BC',
+                                    'border': 1
+                                })
+                                
+                                # Apply header format
+                                for col_num, value in enumerate(df.columns.values):
+                                    worksheet.write(0, col_num, value, header_format)
+                                
+                                # Add conditional formatting for churn prediction
+                                worksheet.conditional_format(1, df.columns.get_loc('ChurnPrediction'), 
+                                                           len(df) + 1, df.columns.get_loc('ChurnPrediction'), 
+                                                           {'type': 'text',
+                                                            'criteria': 'containing',
+                                                            'value': 'Churn',
+                                                            'format': workbook.add_format({'bg_color': '#FFC7CE'})})
+                                
+                                # Auto-adjust columns
+                                for i, col in enumerate(df.columns):
+                                    column_width = max(df[col].astype(str).map(len).max(), len(col)) + 2
+                                    worksheet.set_column(i, i, column_width)
+                            
+                            # Download button for Excel
+                            output.seek(0)
                             st.download_button(
                                 label="Download Results as Excel",
-                                data=excel_data,
+                                data=output.getvalue(),
                                 file_name="churn_predictions.xlsx",
                                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                            )     
+                            )
             except Exception as e:
                 st.error(f"Error processing file: {e}")
 
