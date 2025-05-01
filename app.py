@@ -581,10 +581,10 @@ if app_mode == "Prediction Tool":
                             # Download button for Excel
                                 output.seek(0)
                                 st.download_button(
-                                label="Download Results as Excel",
-                                data=output.getvalue(),
-                                file_name="churn_predictions.xlsx",
-                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                    label="Download Results as Excel",
+                                    data=output.getvalue(),
+                                    file_name="churn_predictions.xlsx",
+                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                             )
             except Exception as e:
                 st.error(f"Error processing file: {e}")
