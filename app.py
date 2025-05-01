@@ -582,7 +582,7 @@ if app_mode == "Prediction Tool":
                                     title='Customer Risk Distribution')
                         
                         st.plotly_chart(fig, use_container_width=True)
-                        
+                        export_format = st.radio("Export Format", ["CSV", "Excel"], index=1, horizontal=True)
                         # Download options
                         if export_format == "CSV":
                             csv_data = df.to_csv(index=False).encode('utf-8')
