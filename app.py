@@ -552,8 +552,8 @@ if app_mode == "Prediction Tool":
                                 df.to_excel(writer, index=False, sheet_name='Predictions')
                                 workbook = writer.book
                                 worksheet = writer.sheets['Predictions']
-                            excel_data = output.getvalue()
-                            header_format = workbook.add_format({
+                                excel_data = output.getvalue()
+                                header_format = workbook.add_format({
                                     'bold': True,
                                     'text_wrap': True,
                                     'valign': 'top',
