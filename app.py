@@ -549,6 +549,15 @@ if app_mode == "Prediction Tool":
                             output = BytesIO()
                             with pd.ExcelWriter(output, engine='openpyxl') as writer:
                                 df.to_excel(writer, index=False, sheet_name='Predictions')
+                                workbook = writer.book
+                                worksheet = writer.sheets['Predictions']
+                                red_fill = PatternFill(start_color='FFFF0000', end_color='FFFF0000', fill_type='solid')
+                                churn_col_idx = df.columns.get_loc("Churn") + 1  # 1-based indexing in Excel
+                                for row_idx, value in enumerate(df["Churn"], start=2):  # Start at 2 to skip header
+                                    if value in [1, "Yes", True]:
+                                        for col_idx in range(1, len(df.columns) + 1):
+                                            worksheet.cell(row=row_idx, column=col_idx).fill = red_fill 
+                            
                             excel_data = output.getvalue()
                             st.download_button(
                                 label="Download Results as Excel",
