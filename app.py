@@ -564,7 +564,17 @@ if app_mode == "Prediction Tool":
                                 # Apply header format
                                 for col_num, value in enumerate(df.columns.values):
                                     worksheet.write(0, col_num, value, header_format)
-                                
+                                if 'ChurnPrediction' in df.columns:
+                                    col_index = df.columns.get_loc('ChurnPrediction')
+                                    churn_format = workbook.add_format({'bg_color': '#FFC7CE'})  # Light red
+                                    worksheet.conditional_format(1, col_index, len(df), col_index, {
+                                    'type': 'text',
+                                    'criteria': 'containing',
+                                    'value': 'Churn',
+                                    'format': churn_format
+                                      })
+                                    else:
+                                        st.error("Error: 'ChurnPrediction' column not found in DataFrame.")
                                 # Add conditional formatting for churn prediction
                                     worksheet.conditional_format(1, df.columns.get_loc('ChurnPrediction'), 
                                                            len(df) + 1, df.columns.get_loc('ChurnPrediction'), 
