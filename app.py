@@ -550,15 +550,7 @@ if app_mode == "Prediction Tool":
                         progress_bar.progress(75)
                         
                         # Add explanation if requested
-                        if include_explanations:
-                            # This would be more sophisticated in a real application
-                            # Here we're just providing a simple placeholder
-                            df['Explanation'] = df.apply(
-                                lambda row: "Low credit score & age" if row['CreditScore'] < 600 and row['Age'] < 30
-                                else ("High balance customer" if row['Balance'] > 100000 
-                                      else "Multiple factors"), axis=1
-                            )
-                        
+                    
                         # Complete progress
                         progress_bar.progress(100)
                         
