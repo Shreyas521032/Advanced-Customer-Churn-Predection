@@ -582,6 +582,7 @@ if app_mode == "Prediction Tool":
                                     title='Customer Risk Distribution')
                         
                         st.plotly_chart(fig, use_container_width=True)
+                        id_column = st.text_input("ID Column Name (optional)", value="CustomerID")
                         export_format = st.radio("Export Format", ["CSV", "Excel"], index=1, horizontal=True)
                         # Download options
                         if export_format == "CSV":
